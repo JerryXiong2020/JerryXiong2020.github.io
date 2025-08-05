@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据展示页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .container {
+            max-width: 414px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .customer-requirements {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e17055;
+        }
+        
+        .customer-requirements h3 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .customer-requirements p {
+            color: #34495e;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e1e5e9;
+        }
+        
+        .stat-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-value {
+            display: block;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+        
+        .table-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        
+        .table-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            text-align: center;
+        }
+        
+        .data-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 13px;
+        }
+        
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .data-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e1e5e9;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .data-table tr:hover {
+            background-color: #e3f2fd;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+        
+        .summary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .summary h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .summary p {
+            color: #34495e;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                margin: 5px;
+                border-radius: 12px;
+                width: 98%;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                font-size: 12px;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 8px 6px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 414px;
+            }
+            
+            .data-table {
+                font-size: 13px;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 12px 10px;
+            }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 数据展示页面</h1>
+            <p>基于AI生成的美观数据可视化</p>
+        </div>
+        
+        <div class="content">
+            
+            <div class="customer-requirements">
+                <h3>🎯 客户需求</h3>
+                <p>Generate a visually appealing HTML page showing cost data by year, quarter, and region, suitable for a poster presentation.</p>
+            </div>
+        
+            
+            <div class="summary">
+                <h3>📈 数据概览</h3>
+                <p>共 10 行数据，包含 4 个字段：year,quarter,region,total_cost</p>
+            </div>
+            
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3>year</h3>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-value">20238.00</span>
+                            <span class="stat-label">总计</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">2023.80</span>
+                            <span class="stat-label">平均</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">2025.00</span>
+                            <span class="stat-label">最大</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">2023.00</span>
+                            <span class="stat-label">最小</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>total_cost</h3>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <span class="stat-value">9400.00</span>
+                            <span class="stat-label">总计</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">940.00</span>
+                            <span class="stat-label">平均</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">1100.00</span>
+                            <span class="stat-label">最大</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">670.00</span>
+                            <span class="stat-label">最小</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            
+            <div class="table-section">
+                <h2>📋 详细数据</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>year</th><th>quarter</th><th>region</th><th>total_cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2023</td><td>Q1</td><td>华南</td><td>900.0</td></tr><tr><td>2023</td><td>Q2</td><td>华东</td><td>1010.0</td></tr><tr><td>2023</td><td>Q3</td><td>华北</td><td>840.0</td></tr><tr><td>2023</td><td>Q4</td><td>西南</td><td>1040.0</td></tr><tr><td>2024</td><td>Q1</td><td>华南</td><td>980.0</td></tr><tr><td>2024</td><td>Q2</td><td>华东</td><td>1060.0</td></tr><tr><td>2024</td><td>Q3</td><td>华中</td><td>760.0</td></tr><tr><td>2024</td><td>Q4</td><td>西北</td><td>670.0</td></tr><tr><td>2025</td><td>Q1</td><td>华南</td><td>1040.0</td></tr><tr><td>2025</td><td>Q2</td><td>华东</td><td>1100.0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 表格行悬停效果
+            const rows = document.querySelectorAll('.data-table tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // 统计卡片动画
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
