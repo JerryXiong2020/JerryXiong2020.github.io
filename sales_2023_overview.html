@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>销售数据概览</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-color: #1e88e5;
+      --secondary-color: #e3f2fd;
+      --success-color: #4caf50;
+      --warning-color: #ff9800;
+      --danger-color: #f44336;
+      --text-color: #333;
+      --bg-color: #f5f9ff;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to bottom right, #e3f2fd, #bbdefb);
+      color: var(--text-color);
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #0d47a1;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      flex: 1;
+      min-width: 140px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card h3 {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .card .value {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      box-shadow: var(--card-shadow);
+    }
+
+    canvas {
+      width: 100% !important;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: var(--secondary-color);
+      font-weight: 500;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #e3f2fd;
+    }
+
+    .target-bar {
+      height: 10px;
+      background-color: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 6px auto;
+      width: 80%;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .cards {
+        flex-direction: column;
+      }
+
+      .card {
+        width: 100%;
+      }
+
+      table {
+        font-size: 0.85rem;
+      }
+
+      th, td {
+        padding: 10px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>销售数据概览</h1>
+    <p>各区域销售业绩与目标完成率分析</p>
+  </header>
+
+  <section class="cards">
+    <div class="card">
+      <h3>总销售额</h3>
+      <div class="value">5050.0</div>
+    </div>
+    <div class="card">
+      <h3>总利润</h3>
+      <div class="value">1260.0</div>
+    </div>
+    <div class="card">
+      <h3>平均完成率</h3>
+      <div class="value">102.1%</div>
+    </div>
+  </section>
+
+  <section class="chart-container">
+    <canvas id="salesChart"></canvas>
+  </section>
+
+  <section class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>区域</th>
+          <th>总销售额</th>
+          <th>总利润</th>
+          <th>目标完成率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>华东</td>
+          <td>1350.0</td>
+          <td>340.0</td>
+          <td>
+            103.8%
+            <div class="target-bar">
+              <div class="bar-fill" style="width:103.8%;background-color:#4caf50;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>华北</td>
+          <td>1100.0</td>
+          <td>260.0</td>
+          <td>
+            91.7%
+            <div class="target-bar">
+              <div class="bar-fill" style="width:91.7%;background-color:#ff9800;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>华南</td>
+          <td>1200.0</td>
+          <td>300.0</td>
+          <td>
+            109.1%
+            <div class="target-bar">
+              <div class="bar-fill" style="width:100%;background-color:#4caf50;"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>西南</td>
+          <td>1400.0</td>
+          <td>360.0</td>
+          <td>
+            103.7%
+            <div class="target-bar">
+              <div class="bar-fill" style="width:103.7%;background-color:#4caf50;"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['华东', '华北', '华南', '西南'],
+        datasets: [
+          {
+            label: '总销售额',
+            data: [1350, 1100, 1200, 1400],
+            backgroundColor: '#1e88e5',
+            borderColor: '#0d47a1',
+            borderWidth: 1
+          },
+          {
+            label: '总利润',
+            data: [340, 260, 300, 360],
+            backgroundColor: '#42a5f5',
+            borderColor: '#0d47a1',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
